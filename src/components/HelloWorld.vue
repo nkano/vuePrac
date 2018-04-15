@@ -47,9 +47,6 @@ h1, h2 {
   font-weight: normal;
   height: 30px;
 }
-.hello {
-  padding: 30px 20px;
-}
 
 
 </style>

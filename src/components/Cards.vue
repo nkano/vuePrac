@@ -2,8 +2,8 @@
   <div class="cards">
     <h1>cards</h1>
     <h2>add new card</h2>
-    <input class="front" v-model="front"/>
-    <input class="back" v-model="back"/>
+    <textarea class="front" v-model="front"></textarea>
+    <textarea class="back" v-model="back"></textarea>
     <button v-on:click="addCard()">add</button>
     <transition name="fade">
       <div v-if="front !== '' || back !== ''" class="card current">
@@ -61,6 +61,7 @@ export default {
   margin: 5px ;
   word-wrap: break-word;
   vertical-align: middle;
+  white-space: pre-line;
 }
 .card .front{
   width: 30%;
