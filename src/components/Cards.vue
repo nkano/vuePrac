@@ -1,0 +1,88 @@
+<template>
+  <div class="cards">
+    <h1>cards</h1>
+    <h2>add new card</h2>
+    <input class="front" v-model="front"/>
+    <input class="back" v-model="back"/>
+    <button v-on:click="addCard()">add</button>
+    <transition name="fade">
+      <div v-if="front !== '' || back !== ''" class="card current">
+        <div class="front">{{ front }}</div>
+        <div class="back">{{ back }}</div>
+      </div>
+    </transition>
+    <h2>added cards</h2>
+    <transition-group name="list">
+    <div v-for="card in savedCards" v-bind:key="card.front">
+      <div class="card">
+        <div class="front">{{ card.front }}</div>
+        <div class="back">{{ card.back }}</div>
+      </div>
+    </div>
+  </transition-group>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Cards',
+  data() {
+    return {
+      front: 'front',
+      back: 'back',
+      savedCards: []
+    }
+  },
+  methods: {
+    addCard: function() {
+      this.savedCards.unshift( {
+        'front': this.front,
+        'back': this.back
+      })
+      this.front = ''
+      this.back = ''
+    }
+  }
+}
+</script>
+
+<style scoped>
+.card {
+  width: 50vw;
+  border: 1px solid #222;
+  border-radius: 5px;
+  border-spacing: 5px;
+  margin: 10px 0px;
+  display: table;
+  table-layout: fixed;
+}
+.card .front, .card .back {
+  display: table-cell;
+  margin: 5px ;
+  word-wrap: break-word;
+  vertical-align: middle;
+}
+.card .front{
+  width: 30%;
+}
+
+.current {
+  border: 1px solid #888;
+  color: #888;
+}
+
+/* transition */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+.list-enter-active, .list-leave-active {
+  transition: all 1s;
+}
+.list-enter, .list-leave-to /* .list-leave-active for below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+</style>
