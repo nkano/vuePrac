@@ -6,8 +6,7 @@
     <textarea class="back" v-model="back" placeholder="back"></textarea>
     <button v-on:click="addCard()">add</button>
     <transition name="fade">
-      <div class="message error">
-        {{ message }}
+      <div v-if="message !== ''" class="message error" v-html="message">
       </div>
     </transition>
     <transition name="fade">
@@ -41,12 +40,7 @@ export default {
   },
   methods: {
     addCard: function() {
-      let is_duplicate = this.savedCards.filter( function( item, index, array ) {
-        return item.front == this.front
-      }, this)  //filterの第二引数はcallback内でthisとして使うobject
-      if( is_duplicate.length != 0 ) {
-        console.log(is_duplicate)
-        this.message = 'duplicate entry: ' + this.front
+      if( !this.validation() ) {
         return false
       }
 
@@ -56,6 +50,26 @@ export default {
       })
       this.front = ''
       this.back = ''
+    },
+
+    validation: function() {
+      this.message = ''
+
+      if( this.front == '') {
+        this.message += "front text is needed <br>"
+      }
+      if( this.back == '') {
+        this.message += "back text is needed <br>"
+      }
+
+      let is_duplicate = this.savedCards.filter( function( item, index, array ) {
+        return item.front == this.front
+      }, this)  //filterの第二引数はcallback内でthisとして使うobject
+      if( is_duplicate.length != 0 ) {
+        this.message += 'duplicate entry: ' + this.front + '<br>'
+      }
+      console.log(this.message)
+      return ( this.message == '' )? true : false
     }
   }
 }
@@ -85,10 +99,11 @@ export default {
 .current {
   border: 1px solid #888;
   color: #888;
+  white-space: pre-wrap;
 }
 
 .message {
-  width: 30vw;
+  max-width: 30vw;
   border-radius: 5px;
   border-spacing: 5px;
   margin: 10px 0px;
