@@ -87,6 +87,20 @@ export default {
   color: #888;
 }
 
+.message {
+  width: 30vw;
+  border-radius: 5px;
+  border-spacing: 5px;
+  margin: 10px 0px;
+  padding: 10px;
+  border: 2px solid #333;
+}
+.error{
+  border: 2px solid #d44;
+  background-color: #fcc;
+  color: #400;
+}
+
 /* transition */
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
