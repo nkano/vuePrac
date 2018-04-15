@@ -6,6 +6,11 @@
     <textarea class="back" v-model="back" placeholder="back"></textarea>
     <button v-on:click="addCard()">add</button>
     <transition name="fade">
+      <div class="message error">
+        {{ message }}
+      </div>
+    </transition>
+    <transition name="fade">
       <div v-if="front !== '' || back !== ''" class="card current">
         <div class="front">{{ front }}</div>
         <div class="back">{{ back }}</div>
@@ -30,11 +35,21 @@ export default {
     return {
       front: '',
       back: '',
-      savedCards: []
+      savedCards: [],
+      message: ''
     }
   },
   methods: {
     addCard: function() {
+      let is_duplicate = this.savedCards.filter( function( item, index, array ) {
+        return item.front == this.front
+      }, this)  //filterの第二引数はcallback内でthisとして使うobject
+      if( is_duplicate.length != 0 ) {
+        console.log(is_duplicate)
+        this.message = 'duplicate entry: ' + this.front
+        return false
+      }
+
       this.savedCards.unshift( {
         'front': this.front,
         'back': this.back
