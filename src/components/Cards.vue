@@ -4,7 +4,7 @@
     <h2>add new card</h2>
     <textarea class="front" v-model="front" placeholder="front"></textarea>
     <textarea class="back" v-model="back" placeholder="back"></textarea>
-    <button v-on:click="addCard()">add</button>
+    <button @click="addCard()">add</button>
     <transition name="fade">
       <div v-if="message !== ''" class="message error" v-html="message">
       </div>
