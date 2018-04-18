@@ -21,6 +21,7 @@
       <div class="card">
         <div class="front">{{ card.front }}</div>
         <div class="back">{{ card.back }}</div>
+        <button class="delete-button" @click="deleteCard(card.front)">delete</button>
       </div>
     </div>
   </transition-group>
@@ -38,6 +39,11 @@ export default {
       message: ''
     }
   },
+  created: function() {
+    const tmp = localStorage.getItem( 'savedCards' )
+    this.savedCards = ( tmp ) ? JSON.parse( tmp ) : []
+  },
+
   methods: {
     addCard: function() {
       if( !this.validation() ) {
@@ -50,7 +56,20 @@ export default {
       })
       this.front = ''
       this.back = ''
+      this.saveCurrentCards()
     },
+
+    deleteCard: function( key ) {
+      this.savedCards = this.savedCards.filter( function( item ) {
+        return item.front != key
+      }, this )
+      this.saveCurrentCards()
+    },
+
+    saveCurrentCards: function() {
+      localStorage.setItem('savedCards', JSON.stringify( this.savedCards ) )
+    },
+
 
     validation: function() {
       this.message = ''
@@ -92,8 +111,16 @@ export default {
   vertical-align: middle;
   white-space: pre-line;
 }
-.card .front{
+/* CSS分からないのでかなり適当 */
+.card .front {
   width: 30%;
+}
+.card .back {
+  float: left;
+  width: 80%;
+}
+.card .delete-button {
+  float: right;
 }
 
 .current {
